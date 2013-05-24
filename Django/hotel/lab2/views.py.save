@@ -1,0 +1,73 @@
+q
+q
+q# Create your views here.
+from django.template import Template, Context
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.shortcuts import render_to_response
+import datetime
+from lab2.models import *
+
+def query(request):
+	t = {'query_state' : "active",
+			"in_query" : True,
+			"title" : "Query"}
+	code = -1
+	if "search" in request.GET:
+		code = request.GET["search"]
+
+	rooms = Room.objects.filter(booker = code)
+	t["rooms"] = rooms
+
+	return render(request, "lab2_index.html", t)
+	#return render_to_response(request, "lab2_index.html", t, context_instance=RequestContext(request))
+
+def reserve(request):
+	print request.POST
+	if "code" in request.POST:
+		print request.POST["code"], "is code"
+	today = datetime.date.today()
+	t = {	"in_reserve" : True,
+			"title" : "Reserve"}
+	if "Room" in request.GET:
+		t["room"] = Room.objects.filter(id = request.GET["Room"])[0]
+	t["today"] = str(today)
+
+	return render(request, "lab2_index.html", t)
+
+def home(request):
+	t = {'home_state' : "active",
+			"in_home" : True,
+			"title" : "Home"}
+
+	hotels = Hotel.objects.all()
+	hotel_name = set()
+	city_name = set()
+	for h in hotels:
+		hotel_name.add(h.name)
+		city_name.add(h.city)
+	t["hotels"] = hotel_name
+	t["citys"] = city_name 
+
+	if "hotel" in request.GET:
+		_name = request.GET["hotel"]
+		if _name != "":
+			hotels = hotels.filter(name = _name)
+	if "city" in request.GET:
+		_city= request.GET["city"]
+		if _city != "":
+			hotels = hotels.filter(city = _city)
+
+	
+	print "hotels: ", hotels
+	rooms = Room.objects.filter(state = "available")
+	room_final = []
+
+	for r in rooms:
+		if r.hotel in hotels:
+			room_final.append(r)
+	
+	print "rooms: ", room_final
+	t["rooms"] = room_final
+
+	return render(request, 'lab2_index.html', t)

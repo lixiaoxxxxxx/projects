@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<script src = "/static/jquery-1.9.1.min.js"></script>
+		<script src = "/static/bootstrap.js"></script>
+		<link href="/static/bootstrap.css" rel="stylesheet">
+		<link href="/static/index.css" rel="stylesheet">
+
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span9 offset1">
+					<div class="hero-unit">
+						<h1>Li's Zone</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id='f1'>
+			<ul class="nav nav-pills">
+				<li class="{{home_state}}">
+				<a href="/home/">Home</a>
+				</li>
+				<li class="offset1 {{blog_state}}">
+				<a href="/blog/">Blog</a>
+				</li>
+				<li class="offset1 {{about_state}}">
+				<a href="/about/">About me</a>
+				</li>
+			</ul>
+		</div>
+		{% if in_blog %}
+		<p>
+		<div id="search_blog">
+			<form class="navbar-form pull-left" method = 'get'>
+				<input type="text" class = "span2" name = "search">
+				<button type="submit" class = "btn">
+					Search
+				</button>
+			</form>
+		</div>
+		</p>
+		<br>
+		<br>
+		{% endif %}
+		<!--<div id="navigator">-->
+			<!--<div class="btn-group">-->
+				<!--<button class="btn">Home</button>-->
+				<!--<button class="btn">Blogs</button>-->
+				<!--<button class="btn">About me</button>-->
+				<!--</div>-->
+			<!--</div>-->
+		<div class="container" id="content">
+			<div class='row-fluid'>
+				<div>
+					{{ content }}
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

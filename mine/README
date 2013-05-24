@@ -1,0 +1,16 @@
+simple minesweeper
+
+takes in three arguments: size_x, size_y, bomb_number
+
+eg:
+	python mine.py 10 10 10
+
+h,j,k,l to move the selection grid
+
+a to open a grid
+d to flag a grid
+s to check the neighbors
+q : quit the game
+r : restart
+
+enjoy it

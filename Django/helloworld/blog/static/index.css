@@ -1,0 +1,35 @@
+div h1{
+	text-align:center;
+}
+
+div .hero-unit{
+	margin-left: 100px;
+	padding-top: 10px;
+	height: 50px;
+}
+
+div .span1{
+	background-color:#eee;
+	padding-top:10px;
+	-webkit-border-radius: 6px;
+}
+
+#content{
+	-webkit-border-radius: 6px;
+	margin-bottom: 30px;
+	margin-left: 250px;
+	width: 780px;
+	height:300px;
+	background-color:#77ddff;
+	text-align:center;
+	overflow:scroll;
+}
+
+#search_blog{
+	margin-left: 250px;
+}
+
+#f1{
+	margin-left : 410px;
+	font-size: 20px;
+}

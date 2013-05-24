@@ -1,0 +1,8 @@
+a simple RPG game written with python and pygame
+
+system requirement:
+	python 2.7
+	pygame 1.9
+
+how to use:
+	python lucifer.py

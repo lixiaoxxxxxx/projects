@@ -1,0 +1,68 @@
+div h1{
+	text-align:center;
+}
+
+div .hero-unit{
+	margin-left: 100px;
+	padding-top: 10px;
+	height: 50px;
+	background-color: #ff44aa;
+}
+
+div .span1{
+	background-color:#eee;
+	padding-top:10px;
+	-webkit-border-radius: 6px;
+}
+
+#back{
+	margin-left : 500px;
+}
+
+div h3{
+	font-size: 23px;
+	margin-top: 0px;
+}
+
+#reserve_form{
+	margin-left: 50px;
+}
+
+#about{
+	margin-top:130px;
+	text-align:center;
+	font-size : 30px;
+}
+
+#content{
+	-webkit-border-radius: 6px;
+	margin-bottom: 30px;
+	margin-left: 250px;
+	width: 780px;
+	height:470px;
+	overflow:scroll;
+	background-color:#77ddff;
+	/*text-align:center;*/
+	overflow:scroll;
+}
+
+div h2{
+	margin-left: 150px;
+}
+
+#reservation{
+	margin-left: 250px;
+}
+#query{
+	margin-left: 250px;
+}
+
+#f1{
+	margin-left : 390px;
+	font-size: 20px;
+}
+.label{
+	height: 20px;
+	width: 40px;
+	text-align:center;
+}

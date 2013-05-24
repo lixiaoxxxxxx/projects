@@ -1,0 +1,6 @@
+a Snake game written under the framework of cocos2d-x
+
+all *.h and *.cpp files are in ./
+and the resources are in ./Resources/
+
+the AI part is written with BFS added with some other strategies.

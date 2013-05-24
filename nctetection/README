@@ -1,0 +1,13 @@
+system requirement:
+	mysql
+	Django
+	python 2.7
+	
+usage:
+	python manage.py runserver ip:portid
+	eg: python manage.py runserver localhost:8080
+	if this command run without error
+
+	then browser:
+	http://127.0.0.1:8080/hello_world
+ 

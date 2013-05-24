@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<title>{{ title }}</title>
+	<head>
+		<script src = "/static/jquery-1.9.1.min.js"></script>
+		<script src = "/static/index.js"></script>
+		<script src = "/static/bootstrap.js"></script>
+		<script src = "/static/bootstrap-datepicker.js"></script>
+		<link href="/static/bootstrap.css" rel="stylesheet">
+		<link href="/static/index.css" rel="stylesheet">
+
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span9 offset1">
+					<div class="hero-unit">
+						<h1>Give me a Room</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% if not in_reserve %}
+		<div id='f1'>
+			<ul class="nav nav-pills">
+				<li class="{{home_state}}">
+				<a href="/home/">Reservation</a>
+				</li>
+				<li class="offset1 {{query_state}}">
+				<a href="/query/">Query</a>
+				</li>
+				<li class="offset1 {{about_state}}">
+				<a href="/about/">About</a>
+				</li>
+			</ul>
+		</div>
+		{% else %}
+		<div id='f1'>
+			<h2> Room Info </h2>
+		</div>
+
+		{% endif %}
+		{% if in_query %}
+		<div id="query">
+			<form class = "form-horizontal" method = "get">
+				<div class="control-group">
+					<span class="label label-info">Code:</span>
+					<input type = "text" class = "input-medium search-query" name = "search">
+					<button class = "btn" type = "submit"> Search </button>
+				</div>
+			</form>
+		</div>
+		{% endif %}
+		{% if in_home %}
+		<div id="reservation">
+			<div>
+				<form class="form-horizontal" method = 'get'>
+					<div>
+						<div class="control-group">
+							<span class="label label-info">Hotel:</span>
+							<select name = "hotel">
+								<option></option>
+								{% for hotel in hotels %}
+								<option>{{ hotel }}</option>
+								{% endfor %}
+							</select>
+							<span class="label label-info">Start:</span>
+							<input type="text" class="span2" value="{{today}}" data-date-format="yyyy-mm-dd" id="dp2" name = "start-time"> 
+						</div>
+					</div>
+					<div class="control-group">
+						<span class="label label-info">City:</span>
+						<select name = "city">
+							<option></option>
+							{% for city in citys %}
+							<option>{{ city }}</option>
+							{% endfor %}
+						</select>
+						<span class="label label-info">End:</span>
+						<input type="text" class="span2" value="{{today}}" data-date-format="yyyy-mm-dd" id="dp3" name = "end-time"> 
+					</div>
+					<div class="control-group">
+						<button type="submit" class="btn">Search</button>
+					</div>
+					<!--<input type="text" class = "input-medium search-query" name = "search">-->
+				</form>
+			</div>
+		</div>
+		{% endif %}
+		<!--<div id="navigator">-->
+			<!--<div class="btn-group">-->
+				<!--<button class="btn">Home</button>-->
+				<!--<button class="btn">Blogs</button>-->
+				<!--<button class="btn">About me</button>-->
+				<!--</div>-->
+			<!--</div>-->
+		<div class="container" id="content">
+			<div class='row-fluid'>
+				{% if in_about %}
+				<div id = "about">
+					{{ about }}
+				</div>
+				{% endif %}
+				{% if in_reserve %}
+				<div id = "reserve_form">
+					<form method = "post">
+						{% csrf_token %}
+						<h3> Hotel: {{ room.hotel.name }}</h3>
+						<h3> City: {{ room.hotel.city }}</h3>
+						<h3> Price: {{ room.price}}</h3>
+						<h3> Start Time: 
+							<div><input type="text" class="span2" value="{{today}}" data-date-format="yyyy-mm-dd" id="dp2" name = "start-time"> </div>
+						</h3>
+						<h3> End Time: 
+							<div><input type="text" class="span2" value="{{today}}" data-date-format="yyyy-mm-dd" id="dp3" name = "end-time"> </div>
+						</h3>
+						<h3> Code: 
+							<div>
+								<input type = "text" class = "span2" name = "code" >
+							</div>
+						<button class = "btn" action = "sumbit"> Book </button>
+						<a href="/home/" id = back>Back</button></a>
+					</form>
+				</div>
+				{% else %}
+				<div>
+					<table class="table table-condensed">
+						<thead>
+							<tr>
+								{% if in_home %}
+								<th>Hotel Name</th>
+								<th>City</th>
+								<th>Rate</th>
+								<th>Price</th>
+								<th>Action</th>
+								{% endif %}
+
+								{% if in_query%}
+								<th>Hotel Name</th>
+								<th>City</th>
+								<th>Rate</th>
+								<th>Price</th>
+								<th>start time</th>
+								<th>end time</th>
+								<th>Action</th>
+								{% endif %}
+							</tr>
+						</thead>
+						<tbody>
+							{% for room in rooms %}
+							<tr>
+								{% if in_home %}
+								<td>{{ room.hotel.name }} </td>
+								<td>{{ room.hotel.city }} </td>
+								<td>{{ room.hotel.rate }} </td>
+								<td>{{ room.price }} </td>
+								<td><a href="/reserve/?Room={{ room.id }}"><button action="" method="get" class = "btn"> Book </button></a></td>
+								{% endif %}
+
+								{% if in_query %}
+								<form method = "post">
+									{% csrf_token %}
+									<td>{{ room.hotel.name }} </td>
+									<td>{{ room.hotel.city }} </td>
+									<td>{{ room.hotel.rate }} </td>
+									<td>{{ room.price }} </td>
+									<td>{{ room.start_time}} </td>
+									<td>{{ room.end_time}} </td>
+									<input type = "hidden" class = "span2" name = "room_id" value = "{{room.id}}">
+									<td><button class = "btn", action = "sumbit">Cancel</button></td>
+								</form>
+								{% endif %}
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

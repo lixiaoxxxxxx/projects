@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>NCdetection</title>
+		<script src="/static/js/jquery.js" type="text/javascript"></script>
+		<script src="/static/js/csrf.js" type="text/javascript"></script>
+		<script src="/static/js/grouping.js" type="text/javascript"></script>
+		<script src="/static/force/d3js/d3.min.js" type="text/javascript"></script>
+		<script src="/static/force/d3js/d3.geom.min.js" type="text/javascript"></script>
+		<script src="/static/force/d3js/d3.layout.min.js" type="text/javascript"></script>
+		<link href="/static/force/force.css" type="text/css" rel="stylesheet" />
+		<link href="/static/css/grouping.css" type="text/css" rel="stylesheet" />
+		<link rel="shortcut icon" href="/static/img/ncdetection_logo.jpg" type="image/x-icon">
+	</head>
+	<body>
+		<div class="left_aside">
+			<div id="headhead">
+				<div id="head">
+					<form action='' method='get'>
+						<h1>NCdetection</h1>
+						<input type='text' name='query' width='40px'/>
+						<input type='submit' value="run~!">
+						<span>(请输入微博用户uid)</span>
+					</form>
+					<div id="short_name">
+					</div>
+					{% for item in nc %}
+					<!-- <p>{{ item.label }}</p> -->
+						{% if forloop.first %}
+					<div class='root'>搜索:
+						{% for user in item.uid_list %}
+						<span class="friend_name"><a href="http://weibo.com/{{ user.uid }}" target="_blank" id="s{{ user.No }}s">{{ user.No }}.{{ user.name}};</a></span>
+						{% endfor %}
+					</div>
+						{% endif %}
+					{% endfor%}
+				</div>
+			</div>
+
+
+			<div id="chart"></div>
+			<script type="text/javascript" src="/static/force/force.js"></script>
+		</div>
+
+		<div class="right_aside">
+			{% for item in nc %}
+			<!-- <p>{{ item.label }}</p> -->
+			{% if forloop.first %}
+			<!-- <div class='root'>搜索: -->
+				<!-- {% for user in item.uid_list %} -->
+				<!-- <span class="friend_name"><a href="http://weibo.com/{{ user.uid }}" target="_blank" id="s{{ user.No }}s">{{ user.No }}.{{ user.name}};</a></span> -->
+				<!-- {% endfor %} -->
+			<!-- </div> -->
+			{% else %}
+			<fieldset class='name_list'>
+				<legend>{{ item.label }} (人数:{{ item.member_number }})</legend>
+				{% for user in item.uid_list %}
+				<span 
+				{% if user.is_neighbor %}	
+					class="is_neighbor friend_name"
+				{% else %}
+					class="friend_name"
+				{% endif %}
+					><a href="http://weibo.com/{{ user.uid }}" target="_blank" id="s{{ user.No }}s">{{ user.No }}.{{ user.name}};</a></span>
+				{% endfor %}
+			</fieldset>
+			{% endif %}
+			{% endfor%}
+		</div>
+		<!-- <div>第{{ cur_page }}页</div> -->
+		<!-- <div> -->
+		<!-- {% for page_number in pages %} -->
+			<!-- <a href="?page={{ page_number }}">{{ page_number }}</a> -->
+		<!-- {% endfor %} -->
+		<!-- </div> -->
+		<!-- {% for user in girls %} -->
+		<!-- <div> -->
+			<!-- {% if user.category%} -->
+			<!-- <fieldset id="selectSize" class="chosen"> -->
+			<!-- {% else %} -->
+			<!-- <fieldset id="selectSize"> -->
+			<!-- {% endif %} -->
+				<!-- <legend>{{ user.name }}</legend> -->
+				<!-- <div class="right_aside"> -->
+					<!-- <form method="post"> -->
+						<!-- {% ifequal user.category 1 %} -->
+						<!-- <label><input type="radio" name="{{ user.userid }}" checked="checked" value="1"/>靓女</label> -->
+						<!-- {% else %} -->
+						<!-- <label><input type="radio" name="{{ user.userid }}" value="1"/>靓女</label> -->
+						<!-- {% endifequal %} -->
+						<!-- {% ifequal user.category 2 %} -->
+						<!-- <label><input type="radio" name="{{ user.userid }}" checked="checked" value="2"/>!靓女</label> -->
+						<!-- {% else %} -->
+						<!-- <label><input type="radio" name="{{ user.userid }}" value="2"/>!靓女</label> -->
+						<!-- {% endifequal %} -->
+						<!-- {% ifequal user.category 3 %} -->
+						<!-- <label><input type="radio" name="{{ user.userid }}" checked="checked" value="3"/>非个人</label> -->
+						<!-- {% else %} -->
+						<!-- <label><input type="radio" name="{{ user.userid }}" value="3"/>非个人</label> -->
+						<!-- {% endifequal %} -->
+					<!-- </form> -->
+					<!-- <p><a href="http://weibo.com/{{ user.userid }}" target="_blank">{{ user.name }} </a> id:{{user.userid}}</p> -->
+					<!-- <img src="/static/raw_material/{{user.userid}}/0.jpeg"/> -->
+					<!-- <p>关注:{{ user.friend_count }} 粉丝:{{ user.follower_count}} 微博: {{ user.statuses_count}}</p> -->
+					<!-- <p>粉丝男女比:{{ user.mf_rate }}</p> -->
+				<!-- </div> -->
+				<!-- <div class="left_aside"> -->
+					<!-- <!-- <p>{{ user.status_list }}</p> --> -->
+					<!-- {% for item in user.status_list %} -->
+					<!-- <p>{{ forloop.counter }}.{{ item.text }}</p><p>---{{ item.client }}-评论数:{{ item.comments_count }}-转发数:{{ item.reposts_count }}</p> -->
+					<!-- {% endfor %} -->
+				<!-- </div> -->
+			<!-- </fieldset> -->
+		<!-- </div> -->
+		<!-- {% endfor %} -->
+		<!-- <div> -->
+		<!-- {% for page_number in pages %} -->
+			<!-- <a href="?page={{ page_number }}">{{ page_number }}</a> -->
+		<!-- {% endfor %} -->
+		<!-- </div> -->
+		<!-- <div>第{{ cur_page }}页</div> -->
+			<!-- {% for item in haha %} -->
+			<!-- <p>{{ forloop.counter }}.{{ item }}</p> -->
+			<!-- {% endfor %} -->
+			<!-- <div class="paginator2" id="pages_navigation2"> -->
+				<!-- {% if pre_page %}<a href="?page={{ pre_page }}">&<button id="page-switcher-prev" class="page-switcher" tabindex="2"     style="width:73px;left:0px;top:0px;padding-bottom:0px;position:fixed">‹</button></a>{% endif %} -->
+				<!-- {% if next_page %} -->
+				<!-- <a id="next_page" href="?page={{ next_page }}"><button id="page-switcher-next" class="page-switcher" tabindex="3" style="width:73px;right:    0px;top:0px;padding-bottom:0px;position:fixed">›</button></a> -->
+				<!-- {% endif %} -->
+			<!-- </div> -->
+
+	</body>
+</html>
