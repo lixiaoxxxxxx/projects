@@ -1,0 +1,9 @@
+rubik's cube implemented with opengl.
+
+basic operation:
+	drag to change view point
+	f turns front layer clockwise
+	F turns front layer anti-clockwise 
+	l turns left layer clockwise
+	L turns left layer anti-clockwise
+	etc.
