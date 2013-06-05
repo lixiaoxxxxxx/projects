@@ -95,6 +95,7 @@ class Block:
 		self.yd = yd 
 		self.zd = zd
 		self.loc = [self.x, self.y, self.z]
+		self.d = (self.x ** 2 + self.y ** 2 + self.z ** 2) ** 0.5
 		self.color = {
 				"f" : cl_red,
 				"b" : cl_magenta,
@@ -181,6 +182,9 @@ class Block:
 		#print self.y
 	
 	def draw(self):
+		if cube.t == -1:
+			if self.d == 0 or self.d == 1:
+				return
 		glPushMatrix()
 
 		glTranslatef(self.x, self.y, self.z)
@@ -259,6 +263,7 @@ class Cube:
 		self.keys = []
 		self.cd = 45
 		self.blocks = []
+		self.t = 1
 		for i in xrange(-1, 2):
 			for k in xrange(-1, 2):
 				for j in xrange(-1, 2):
@@ -268,6 +273,9 @@ class Cube:
 		self.r = []
 		self.b = []
 		self.l = []
+	
+	def switch_type(self):
+		self.t = -self.t
 	
 	def redefine(self, flag):
 		del self.f[:]
@@ -368,11 +376,12 @@ def reshape(w, h):
 	glViewport(0, 0, w, h)
 	glMatrixMode(GL_PROJECTION)
 	glLoadIdentity()
-	gluPerspective (60.0, w / h, .1, 200.0)
+	gluPerspective (60.0, w / h, .1, 300.0)
 	glMatrixMode(GL_MODELVIEW)
 
 def display():
 	global vp
+	glClearColor(0.4, 0, .8, 0.3)
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 	glMatrixMode(GL_MODELVIEW)
 	glLoadIdentity()
@@ -429,11 +438,21 @@ def shuffle(step):
 def keyboardfunc(key, x, y):
 	#print cube.keys
 	global cube
+
+	if key == "f":
+		vp.change_y()
+
+	if key == "d":
+		vp.turn(45)
+
+	if key == "s":
+		cube.switch_type()
+		glutPostRedisplay()
 	if key == "a":
 		step = randint(15, 25)
 		print step
 		shuffle(randint(15, 25))
-	if key == "q":
+	if key == "z":
 		cube = Cube()
 		glutPostRedisplay()
 	if key == 'q':
@@ -451,7 +470,7 @@ def ontimer(x):
 		cube.cd = 45
 		if len(cube.keys):
 			del cube.keys[0]
-	glutTimerFunc(20, ontimer, 1)
+	glutTimerFunc(10, ontimer, 1)
 
 #mouse_before = (0, 0)
 #mouse_after = (0, 0)
@@ -479,6 +498,16 @@ class View_point:
 		self.dis = self.x1 ** 2 + self.y1 ** 2 + self.z1 ** 2
 		self.d = self.dis ** 0.5
 		self.f = 0
+	
+	def change_y(self):
+		self.y1 = -self.y1
+		self.y2 = -self.y2
+		display()
+	
+	def turn(self, degree):
+		self.x1, self.z1 = get_loc(self.x1, self.z1, degree)
+		self.x2, self.z2 = get_loc(self.x2, self.z2, degree)
+		display()
 	
 	def turn_x(self, flag):
 		global cube
@@ -516,7 +545,7 @@ class View_point:
 			a = 1
 		else:
 			a = -1
-		self.y1 += a * 0.15
+		self.y1 += a * 0.35
 		if self.y1 <= -self.d:
 			self.y1 = -self.d 
 		elif self.y1 >= self.d:
@@ -553,7 +582,7 @@ if __name__ == "__main__":
 	glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH)
 	glutInitWindowSize(600, 600)
 	glutInitWindowPosition(100, 100)
-	window = glutCreateWindow("hello")
+	window = glutCreateWindow("Cube!")
 
 
 	glEnable(GL_DEPTH_TEST)
@@ -573,7 +602,7 @@ if __name__ == "__main__":
 	print 'window', repr(window)
 	glutDisplayFunc(display)
 	glutReshapeFunc(reshape)
-	glutTimerFunc(20, ontimer, 1)
+	glutTimerFunc(10, ontimer, 1)
 	#glutMouseFunc(mouse)
 	glutMotionFunc(motion)
 	#glutEntryFunc(printFunction( 'Entry' ))
