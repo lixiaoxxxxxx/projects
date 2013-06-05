@@ -1,5 +1,12 @@
 rubik's cube implemented with opengl.
 
+system requirement:
+	python 2.7.x
+	python-opengl
+
+usage:
+	python cube.py
+
 new version!
 
 basic operation:
@@ -22,3 +29,9 @@ basic operation:
 	a shuffle the cube
 	z reset the cube
 	q quit
+
+	new features:
+	s change cube to "空心cube"
+	d turn the view point 45 degree to right
+	f turn the view point from up to down. vice versa
+
