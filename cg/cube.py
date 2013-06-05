@@ -2,6 +2,7 @@ import sys
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
+from random import randint
 import math
 import time
 
@@ -24,18 +25,18 @@ high_shininess = (100.0, 100, 100, 100)
 mat_emission = (0.3, 0.2, 0.2, 0.0)
 
 key_mapping = {
-		"u" : "u",
-		"U" : "U",
-		"d" : "d",
-		"D" : "D",
-		"f" : 1,
-		"F" : -1,
-		"r" : 2,
-		"R" : -2,
-		"b" : 3,
-		"B" : -3,
-		"l" : 4,
-		"L" : -4
+		"6" : "u",
+		"8" : "U",
+		"m" : "d",
+		"b" : "D",
+		"y" : 1,
+		"u" : -1,
+		"i" : 2,
+		"k" : -2,
+		"h" : 3,
+		"j" : -3,
+		"g" : 4,
+		"t" : -4
 		}
 
 
@@ -421,11 +422,23 @@ def key_redefine(k, f):
 	else:
 		return k - f
 
+def shuffle(step):
+	for i in xrange(0, step):
+		cube.keys.append(key_mapping.keys()[randint(0, len(key_mapping.keys()) - 1)])
+
 def keyboardfunc(key, x, y):
 	#print cube.keys
+	global cube
+	if key == "a":
+		step = randint(15, 25)
+		print step
+		shuffle(randint(15, 25))
+	if key == "q":
+		cube = Cube()
+		glutPostRedisplay()
 	if key == 'q':
 		exit()
-	else:
+	elif key in key_mapping.keys():
 		cube.keys.append(key)
 
 def ontimer(x):

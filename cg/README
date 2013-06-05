@@ -1,9 +1,20 @@
 rubik's cube implemented with opengl.
 
+new version!
+
 basic operation:
 	drag to change view point
-	f turns front layer clockwise
-	F turns front layer anti-clockwise 
-	l turns left layer clockwise
-	L turns left layer anti-clockwise
-	etc.
+	look at your keyboard
+	  6  8
+	t y  u i
+	g h  j k
+	  b  m
+	
+	6 8 to turn the U layer
+	t g for left
+	i k for right
+	b m for bottom	
+	y u for front
+	h j for back
+
+	the layer changes according to which layer you are facing
