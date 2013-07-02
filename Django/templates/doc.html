@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<title>{{ title }}</title>
+	<head>
+		<script src = "/static/jquery-1.9.1.min.js"></script>
+		<script src = "/static/index.js"></script>
+		<script src = "/static/bootstrap.js"></script>
+		<script src = "/static/bootstrap-datepicker.js"></script>
+		<link href="/static/bootstrap.css" rel="stylesheet">
+		<link href="/static/index.css" rel="stylesheet">
+		<script>
+			function select_file(fid){
+				alert(fid);
+			}
+		</script>
+		<script>
+			function get_msg(){
+				$.getJSON("/get_msg/", function(data){
+					var txt = ""
+					for (i = 0; i < data.msg.length; i++){
+						txt = txt + data.msg[i] + "<br>";
+					}
+					<!--document.getElementById("chat_zone").innerHTML = data.msg;-->
+					document.getElementById("chat_zone").innerHTML = txt;
+				});
+			}
+		</script>
+		<script>
+			function send_msg(){
+				var name = document.getElementById("name").value;
+				var msg = document.getElementById("msg").value;
+				$.getJSON("/send_msg/", { _msg : msg, _name : name });
+				document.getElementById("msg").value = "";
+			}
+		</script>
+		<script>
+			var begin;
+			var b;
+			function go(){
+				begin = setInterval("fetch_data()", 2000);
+				b = setInterval("get_msg()", 1000);
+			}
+		</script>
+		<script>
+			function fetch_data(){
+				$.getJSON('/fetch_data/', {content: document.getElementById("text").value}, function(data){
+					document.getElementById("text").value = data.content;
+				});
+			}
+		</script>
+		<script>
+			function write_data(value)
+			{
+				$.getJSON('/write_data/', {content : value});
+			}
+		</script>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span9 offset1">
+					<div class="hero-unit">
+						<h1>Doc!!</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class = "row-fluid" id = "chat">
+			<div id = "chat_title">
+				<h3> chatting </h3>
+			</div>
+			<div class = "row-fluid" id = "chat_zone">
+			</div>
+			<div id = "name_zone">
+				name: <input type = "text" id = "name"/>
+			</div>
+			<p>
+			<div>
+				<input type = "text" id = "msg" />
+				<button class = 'btn' onclick="send_msg()"> send </button>
+			</div>
+
+		</div>
+
+		<div class="container" id="content">
+			<div class='row-fluid'>
+				<div id = "text_zone">
+					<!--<textarea rows = "3" id = "text" onkeyup="showHint(this.value)">-->
+					<textarea rows = "3" id = "text" onkeyup="write_data(this.value)">
+					</textarea>
+				</div>
+			</div>
+		</div>
+		<div class = "row-fluid" id = "list">
+			<div id = "file_tag">
+				<h3> Files </h3>
+			</div>
+			<table class="table table-condensed">
+				<thead>
+					<tr>
+						<th> File name </th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for f in files %}
+					<tr>
+						<td onclick="select_file({{f.id}})"> {{ f.name }} </td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<script>
+			go();
+		</script>
+	</body>
+</html>

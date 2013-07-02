@@ -65,7 +65,7 @@
 								{% endfor %}
 							</select>
 							<span class="label label-info">Start:</span>
-							<input type="text" class="span2" value="{{today}}" data-date-format="yyyy-mm-dd" id="dp2" name = "start-time"> 
+							<input type="text" class="span2" value="{{start_time}}" data-date-format="yyyy-mm-dd" id="dp2" name = "start_time"> 
 						</div>
 					</div>
 					<div class="control-group">
@@ -77,7 +77,7 @@
 							{% endfor %}
 						</select>
 						<span class="label label-info">End:</span>
-						<input type="text" class="span2" value="{{today}}" data-date-format="yyyy-mm-dd" id="dp3" name = "end-time"> 
+						<input type="text" class="span2" value="{{start_time}}" data-date-format="yyyy-mm-dd" id="dp3" name = "end_time"> 
 					</div>
 					<div class="control-group">
 						<button type="submit" class="btn">Search</button>
@@ -109,10 +109,10 @@
 						<h3> City: {{ room.hotel.city }}</h3>
 						<h3> Price: {{ room.price}}</h3>
 						<h3> Start Time: 
-							<div><input type="text" class="span2" value="{{today}}" data-date-format="yyyy-mm-dd" id="dp2" name = "start-time"> </div>
+							<div><input type="text" class="span2" value="{{start_time}}" data-date-format="yyyy-mm-dd" id="dp2" name = "start_time"> </div>
 						</h3>
 						<h3> End Time: 
-							<div><input type="text" class="span2" value="{{today}}" data-date-format="yyyy-mm-dd" id="dp3" name = "end-time"> </div>
+							<div><input type="text" class="span2" value="{{end_time}}" data-date-format="yyyy-mm-dd" id="dp3" name = "end_time"> </div>
 						</h3>
 						<h3> Code: 
 							<div>
@@ -154,7 +154,7 @@
 								<td>{{ room.hotel.city }} </td>
 								<td>{{ room.hotel.rate }} </td>
 								<td>{{ room.price }} </td>
-								<td><a href="/reserve/?Room={{ room.id }}"><button action="" method="get" class = "btn"> Book </button></a></td>
+								<td><a href="/reserve/?Room={{ room.id }}&ST={{start_time}}"><button action="sumbit" class = "btn"> Detail </button></a></td>
 								{% endif %}
 
 								{% if in_query %}
